@@ -86,3 +86,57 @@ To interact with your deployed smart contract, complete the following steps:
          
 4. Once you’ve successfully deposited funds into your contract, test the contract’s withdrawal functionality by withdrawing 5 ether into accountOne and 10 ether into              accountTwo. After each transaction, use the contractBalance function to verify that the funds were withdrawn from your contract. Also, use the lastToWithdraw and                lastWithdrawAmount functions to verify that the address and amount were correct.
 
+--------
+
+### Full Contract Code
+```
+pragma solidity ^0.5.0;
+
+contract JointSavings{
+    address payable  accountOne;
+    address payable  accountTwo;
+    address public lastToWithdraw;
+    uint public lastToWithdrawAmount;
+    uint public contractBalance;
+    
+    
+    function withdraw(uint amount, address payable recipient) public {
+        require (recipient == accountOne || recipient == accountTwo, "You don't own this account");
+        require  (amount <= contractBalance , "You don't have enough funds!");
+        if (lastToWithdraw != recipient) {
+            lastToWithdraw == recipient;
+        }
+        recipient.transfer(amount);
+        lastToWithdrawAmount = amount;
+        contractBalance = address(this).balance;
+    }
+ 
+    function deposit () public payable {
+        contractBalance = address(this).balance;
+    }
+
+    function setAccounts(address payable account1, address payable account2) public{
+        accountOne = account1 ;
+        accountTwo =  account2 ;
+        
+    }
+    
+    function() external payable {}
+    
+    
+}
+```
+-----
+
+#Technologies
+
+*Solidity is a statically-typed programming language designed for developing smart contracts that run on the Ethereum Virtual Machine, also known as EVM. As specified by Wood it is designed around the ECMAScript syntax to make it familiar for existing web developers; unlike ECMAScript it has static typing and variadic return types.
+
+![solidity](https://blockchainsimplified.com/blog/solidity-programming-the-smart-contract-language-in-ethereum/solidity-programming-definition.jpg)
+------
+
+#Remix
+
+*Remix IDE allows developing, deploying and administering smart contracts for Ethereum like blockchains. It can also be used as a learning platform. Start coding online.
+
+![remix](https://miro.medium.com/max/1080/1*mkTfH_SzupDN-sNAiAZn2g.png)
