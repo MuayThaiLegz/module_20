@@ -1,6 +1,6 @@
 pragma solidity ^0.5.0;
 
-contract joint_savings{
+contract JointSavings{
     address payable  accountOne;
     address payable  accountTwo;
     address public lastToWithdraw;
@@ -10,7 +10,7 @@ contract joint_savings{
     
     function withdraw(uint amount, address payable recipient) public {
         require (recipient == accountOne || recipient == accountTwo, "You don't own this account");
-        require  (address(this).balance >= amount, "You don't have enough funds!");
+        require  (amount <= contractBalance , "You don't have enough funds!");
         if (lastToWithdraw != recipient) {
             lastToWithdraw == recipient;
         }
@@ -24,8 +24,8 @@ contract joint_savings{
     }
 
     function setAccounts(address payable account1, address payable account2) public{
-        accountOne = account1;
-        accountTwo = account2;
+        accountOne = account1 ;
+        accountTwo =  account2 ;
         
     }
     
